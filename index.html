@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Portfolio of Your Name: projects, skills, experience, and contact." />
+  <style>
+    /* =====================
+       Base & Theme
+       ===================== */
+    :root{
+      --bg: #0b0c10;
+      --panel: #12131a;
+      --text: #e6e8ee;
+      --muted: #b6bbce;
+      --brand: #7c5cff; /* accent */
+      --brand-2: #26d0ce; /* secondary accent */
+      --border: rgba(255,255,255,.08);
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --maxw: 1100px;
+    }
+
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f7f7fb;
+        --panel: #ffffff;
+        --text: #0b1020;
+        --muted: #4a5166;
+        --border: rgba(0,0,0,.08);
+        --shadow: 0 10px 30px rgba(0,0,0,.08);
+      }
+    }
+
+    html{ scroll-behavior:smooth; }
+    *,*::before,*::after{ box-sizing:border-box; }
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(124,92,255,.15), transparent 60%),
+                  radial-gradient(1000px 500px at -10% 110%, rgba(38,208,206,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text); line-height:1.6;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    img{ max-width:100%; height:auto; display:block; }
+
+    .container{ max-width:var(--maxw); margin-inline:auto; padding: 0 20px; }
+    .grid{ display:grid; gap:24px; }
+
+    /* =====================
+       Header
+       ===================== */
+    .skip-link{ position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .skip-link:focus{ left:16px; top:16px; width:auto; height:auto; padding:10px 14px; background:var(--panel); border:1px solid var(--border); border-radius:10px; }
+
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(10px);
+      background: color-mix(in oklab, var(--panel) 70%, transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0; }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.3px; }
+    .logo{
+      width:34px; height:34px; border-radius:10px; display:grid; place-items:center; font-weight:800;
+      background:linear-gradient(135deg, var(--brand), var(--brand-2));
+      color:white;
+      box-shadow: var(--shadow);
+    }
+    .nav a{ opacity:.9; }
+    .nav a:hover{ opacity:1; }
+    .nav ul{ list-style:none; display:flex; gap:18px; margin:0; padding:0; }
+    .btn{
+      display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px; border:1px solid var(--border);
+      background:linear-gradient(180deg, color-mix(in oklab, var(--panel) 85%, transparent), var(--panel));
+      box-shadow: var(--shadow);
+    }
+    .btn--primary{ border:0; background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:white; }
+
+    /* =====================
+       Hero
+       ===================== */
+    .hero{ padding: 64px 0 24px; }
+    .hero-wrap{ display:grid; gap:26px; grid-template-columns: 1.2fr .8fr; align-items:center; }
+    .headline{ font-size: clamp(28px, 4vw, 48px); line-height:1.15; margin:0; letter-spacing:.2px; }
+    .subhead{ font-size: clamp(16px, 1.8vw, 18px); color:var(--muted); margin: 12px 0 0; }
+    .hero .cta{ margin-top:22px; display:flex; gap:12px; flex-wrap:wrap; }
+    .avatar{
+      width:min(320px, 85%); aspect-ratio:1/1; border-radius:24px; margin-left:auto;
+      background: linear-gradient(135deg, rgba(124,92,255,.4), rgba(38,208,206,.4));
+      padding:6px;
+    }
+    .avatar img{ border-radius:20px; }
+
+    @media (max-width: 900px){ .hero-wrap{ grid-template-columns: 1fr; } .avatar{ margin: 0; } }
+
+    /* =====================
+       Panels / Sections
+       ===================== */
+    section{ padding: 56px 0; }
+    .panel{ background:var(--panel); border:1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; }
+    .section-title{ font-size: 22px; margin:0 0 18px; }
+    .muted{ color:var(--muted); }
+
+    /* =====================
+       About
+       ===================== */
+    .about-grid{ grid-template-columns: 1.1fr .9fr; }
+    @media (max-width: 900px){ .about-grid{ grid-template-columns:1fr; } }
+
+    /* =====================
+       Skills
+       ===================== */
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+    .chip{ padding:8px 12px; border-radius:999px; background: color-mix(in oklab, var(--brand) 12%, var(--panel)); border:1px solid var(--border); font-size:14px; }
+
+    /* =====================
+       Projects
+       ===================== */
+    .projects{ grid-template-columns: repeat(12, 1fr); }
+    .project-card{
+      grid-column: span 6;
+      display:grid; gap:12px; grid-template-rows: auto 1fr auto; padding:16px; border-radius:16px; border:1px solid var(--border);
+      background:linear-gradient(180deg, color-mix(in oklab, var(--panel) 92%, transparent), var(--panel));
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .project-card:hover{ transform: translateY(-2px); box-shadow: 0 14px 35px rgba(0,0,0,.25); }
+    .project-cover{ border-radius:12px; overflow:hidden; aspect-ratio: 16/9; background:#1a1b23; display:grid; place-items:center; }
+    .tags{ display:flex; flex-wrap:wrap; gap:8px; }
+    .tag{ font-size:12px; padding:6px 10px; border-radius:999px; border:1px dashed var(--border); color:var(--muted); }
+    .project-title{ margin:6px 0 0; font-size:18px; }
+    .project-link{ font-weight:600; }
+    @media (max-width: 900px){ .project-card{ grid-column:span 12; } }
+
+    /* =====================
+       Experience
+       ===================== */
+    .timeline{ position:relative; padding-left:26px; }
+    .timeline::before{ content:""; position:absolute; left:7px; top:6px; bottom:6px; width:2px; background: linear-gradient(var(--brand), var(--brand-2)); border-radius:2px; }
+    .item{ margin:0 0 18px; padding:14px; border:1px solid var(--border); border-radius:14px; background: color-mix(in oklab, var(--panel) 94%, transparent); }
+    .item h4{ margin:0 0 6px; font-size:16px; }
+    .item .small{ font-size:13px; color:var(--muted); }
+
+    /* =====================
+       Contact
+       ===================== */
+    form{ display:grid; gap:12px; }
+    .field{ display:grid; gap:6px; }
+    input, textarea{
+      font: inherit; color:inherit; background: transparent; border:1px solid var(--border);
+      border-radius:12px; padding:12px 14px; outline:none;
+    }
+    input:focus, textarea:focus{ box-shadow:0 0 0 3px color-mix(in oklab, var(--brand) 25%, transparent); }
+    textarea{ min-height:130px; }
+
+    /* =====================
+       Footer
+       ===================== */
+    footer{ padding: 26px 0 40px; color:var(--muted); }
+    .foot-grid{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .socials{ display:flex; gap:12px; }
+    .socials a{ padding:8px 10px; border:1px solid var(--border); border-radius:12px; }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- ========== Header ========== -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#">
+        <span class="logo" aria-hidden="true">YN</span>
+        <span>Your Name</span>
+      </a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn--primary" href="resume.pdf" download>Download Resume</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ========== Hero ========== -->
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div>
+          <h1 class="headline">Hi, I’m <span style="background: linear-gradient(135deg, var(--brand), var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent;">Your Name</span> — a Front‑End Developer crafting clean, accessible web experiences.</h1>
+          <p class="subhead">I love turning ideas into fast, responsive interfaces using HTML, CSS, and a sprinkle of modern tooling. Based in Your City, open to remote opportunities.</p>
+          <div class="cta">
+            <a class="btn btn--primary" href="#projects">View Projects</a>
+            <a class="btn" href="#contact">Hire Me</a>
+          </div>
+        </div>
+        <div class="avatar">
+          <!-- Replace src with your photo -->
+          <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1200&auto=format&fit=crop" alt="Portrait of Your Name"/>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== About ========== -->
+    <section id="about">
+      <div class="container grid about-grid">
+        <div class="panel">
+          <h2 class="section-title">About</h2>
+          <p>I'm a developer who enjoys building delightful user interfaces and helpful tools. My focus is semantic HTML, modern CSS (Grid, Flexbox), and performance. Recently I’ve been exploring design systems and CSS architecture.</p>
+          <p class="muted">Outside of code: coffee, sketches, and long walks with podcasts.</p>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <h3 class="section-title">Highlights</h3>
+            <ul>
+              <li>3+ years building responsive UIs</li>
+              <li>Shipped 12+ client projects</li>
+              <li>Accessibility and performance minded</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3 class="section-title">What I’m looking for</h3>
+            <p>Front‑end roles where I can own the UI layer, collaborate closely with design, and contribute to component libraries.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Skills ========== -->
+    <section id="skills">
+      <div class="container">
+        <div class="panel">
+          <h2 class="section-title">Skills</h2>
+          <div class="chips" aria-label="Skills list">
+            <span class="chip">HTML5</span>
+            <span class="chip">CSS3</span>
+            <span class="chip">Responsive Design</span>
+            <span class="chip">CSS Grid</span>
+            <span class="chip">Flexbox</span>
+            <span class="chip">SASS</span>
+            <span class="chip">Tailwind (basics)</span>
+            <span class="chip">Git & GitHub</span>
+            <span class="chip">Accessibility (a11y)</span>
+            <span class="chip">Figma</span>
+            <span class="chip">Performance</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Projects ========== -->
+    <section id="projects">
+      <div class="container">
+        <h2 class="section-title">Projects</h2>
+        <div class="grid projects">
+          <!-- Project 1 -->
+          <article class="project-card">
+            <div class="project-cover">
+              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Landing page preview" />
+            </div>
+            <div>
+              <h3 class="project-title">SaaS Landing Page</h3>
+              <p class="muted">Responsive landing page with semantic HTML, utility CSS, and accessible navigation.</p>
+              <div class="tags">
+                <span class="tag">HTML</span>
+                <span class="tag">CSS Grid</span>
+                <span class="tag">Accessibility</span>
+              </div>
+            </div>
+            <div class="grid" style="grid-template-columns:auto auto; justify-content:space-between;">
+              <a class="project-link" href="#" target="_blank" rel="noreferrer noopener">Live</a>
+              <a class="project-link" href="#" target="_blank" rel="noreferrer noopener">Code</a>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="project-card">
+            <div class="project-cover">
+              <img src="https://images.unsplash.com/photo-1547658719-98bf04e2b489?q=80&w=1200&auto=format&fit=crop" alt="Dashboard preview" />
+            </div>
+            <div>
+              <h3 class="project-title">Admin Dashboard UI</h3>
+              <p class="muted">Pure CSS dashboard layout using modern Grid and flex utilities, dark/light adaptive.</p>
+              <div class="tags">
+                <span class="tag">CSS Grid</span>
+                <span class="tag">Flexbox</span>
+                <span class="tag">Dark Mode</span>
+              </div>
+            </div>
+            <div class="grid" style="grid-template-columns:auto auto; justify-content:space-between;">
+              <a class="project-link" href="#" target="_blank" rel="noreferrer noopener">Live</a>
+              <a class="project-link" href="#" target="_blank" rel="noreferrer noopener">Code</a>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="project-card">
+            <div class="project-cover">
+              <img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1200&auto=format&fit=crop" alt="Portfolio preview" />
+            </div>
+            <div>
+              <h3 class="project-title">Developer Portfolio</h3>
+              <p class="muted">The site you’re viewing: accessible, fast, and configurable with CSS variables.</p>
+              <div class="tags">
+                <span class="tag">Performance</span>
+                <span class="tag">A11y</span>
+                <span class="tag">Design System</span>
+              </div>
+            </div>
+            <div class="grid" style="grid-template-columns:auto auto; justify-content:space-between;">
+              <a class="project-link" href="#" target="_blank" rel="noreferrer noopener">Live</a>
+              <a class="project-link" href="#" target="_blank" rel="noreferrer noopener">Code</a>
+            </div>
+          </article>
+
+          <!-- Project 4 -->
+          <article class="project-card">
+            <div class="project-cover">
+              <img src="https://images.unsplash.com/photo-1556767576-cfba94f0b9af?q=80&w=1200&auto=format&fit=crop" alt="Ecommerce preview" />
+            </div>
+            <div>
+              <h3 class="project-title">E‑commerce Product Page</h3>
+              <p class="muted">Pixel‑perfect product page with responsive gallery and CSS‑only tabs.</p>
+              <div class="tags">
+                <span class="tag">Responsive</span>
+                <span class="tag">CSS Only</span>
+                <span class="tag">UX</span>
+              </div>
+            </div>
+            <div class="grid" style="grid-template-columns:auto auto; justify-content:space-between;">
+              <a class="project-link" href="#" target="_blank" rel="noreferrer noopener">Live</a>
+              <a class="project-link" href="#" target="_blank" rel="noreferrer noopener">Code</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Experience ========== -->
+    <section id="experience">
+      <div class="container">
+        <div class="panel">
+          <h2 class="section-title">Experience</h2>
+          <div class="timeline">
+            <div class="item">
+              <h4>Front‑End Developer — Awesome Studio</h4>
+              <div class="small">Jan 2024 – Present · Remote</div>
+              <p>Led a component library revamp, improving Lighthouse accessibility scores from 84→98 and reducing CSS size by 40%.</p>
+            </div>
+            <div class="item">
+              <h4>Web Designer — Freelance</h4>
+              <div class="small">Jun 2022 – Dec 2023</div>
+              <p>Built responsive marketing sites for startups; delivered design systems and handoff docs.</p>
+            </div>
+            <div class="item">
+              <h4>Intern — Local Agency</h4>
+              <div class="small">Jan 2022 – May 2022</div>
+              <p>Prototyped landing pages, learned accessibility basics, and collaborated with QA to fix UI bugs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Contact ========== -->
+    <section id="contact">
+      <div class="container grid" style="grid-template-columns: 1fr .9fr;">
+        <div class="panel">
+          <h2 class="section-title">Let’s work together</h2>
+          <p class="muted">Have a project or a role in mind? Send a note and I’ll reply within 24–48 hours.</p>
+          <form action="mailto:you@example.com" method="post" enctype="text/plain">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" placeholder="Your name" required />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required />
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell me a bit about your project…" required></textarea>
+            </div>
+            <button class="btn btn--primary" type="submit">Send Message</button>
+          </form>
+        </div>
+        <div class="panel">
+          <h3 class="section-title">Quick links</h3>
+          <ul>
+            <li><a href="mailto:you@example.com">you@example.com</a></li>
+            <li><a href="https://github.com/yourname" target="_blank" rel="noreferrer noopener">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/yourname" target="_blank" rel="noreferrer noopener">LinkedIn</a></li>
+            <li><a href="#">Dribbble / Behance</a></li>
+          </ul>
+          <p class="muted">Prefer forms? Replace the mailto action with a service like Formspree.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== Footer ========== -->
+  <footer>
+    <div class="container foot-grid">
+      <small>© <span id="year"></span> Your Name. All rights reserved.</small>
+      <div class="socials" aria-label="Social links">
+        <a href="https://github.com/yourname" target="_blank" rel="noreferrer noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/yourname" target="_blank" rel="noreferrer noopener">LinkedIn</a>
+        <a href="#projects">Projects</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // tiny progressive enhancement for the current year (no other JS needed)
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
